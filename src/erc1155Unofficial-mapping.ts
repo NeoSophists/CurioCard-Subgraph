@@ -149,7 +149,7 @@ export function handleTransferSingleUnofficial(
               event.params._id.toHexString(),
             ]
           );
-        clearEmptyCardBalance(user_sender_cardBalance);
+        clearEmptyCardBalance(user_sender_cardBalance,user_sender);
       }
     }}
       else{
@@ -228,7 +228,7 @@ export function handleTransferBatchUnofficial(
         );
         user_recevier_cardBalance.save();
         user_recevier.save();
-        clearEmptyCardBalance(user_sender_cardBalance);
+        clearEmptyCardBalance(user_sender_cardBalance,user_sender);
         log.info(
           "ERC1155 UNOFFICAL BATCH TRANSFER - operator: {} from: {} to: {} txhash: {} value: {} id: {}",
           [

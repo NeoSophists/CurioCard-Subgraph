@@ -4,13 +4,15 @@ import { CardBalance, CardHolder, CardType } from "../generated/schema";
 import { ADDRESS_ZERO, ERC1155Unofficial_ADDRESS } from "./constants";
 
 // ERC1155 mapping
-export function clearEmptyCardBalance(cardBalance: CardBalance): void {
+export function clearEmptyCardBalance(cardBalance: CardBalance, cardHolder: CardHolder): void {
   if (
     cardBalance.unwrapped == BigInt.zero() &&
     cardBalance.wrappedOfficial == BigInt.zero() &&
     cardBalance.wrappedUnofficial == BigInt.zero()
   ) {
     store.remove("CardBalance", cardBalance.id);
+    cardHolder.uniqueCards = cardHolder.uniqueCards.minus(BigInt.fromI32(1))
+    cardHolder.save()
   }
 }
 // let curioArray = new Map<string, number>();
@@ -111,6 +113,8 @@ export function getOrCreateCardHolder(address: Address): CardHolder {
   let user = CardHolder.load(address.toHex());
   if (user == null) {
     user = new CardHolder(address.toHex());
+    user.uniqueCards = BigInt.fromI32(0);
+    user.save()
   }
   return user;
 }
@@ -122,7 +126,7 @@ export function getOrCreateCardBalance(
   blockNumber: BigInt
 ): CardBalance {
   let cardBalanceID =
-    cardType.address.toHexString() + "-" + address.toHexString();
+    cardType.address.toHexString() + "-" + cardHolder.id;
   let cardBalance = CardBalance.load(cardBalanceID);
   if (cardBalance == null) {
     cardBalance = new CardBalance(cardBalanceID);
@@ -133,6 +137,9 @@ export function getOrCreateCardBalance(
     cardBalance.user = cardHolder.id;
     cardBalance.blockNumber = blockNumber;
     cardBalance.save();
+
+    cardHolder.uniqueCards = cardHolder.uniqueCards.plus(BigInt.fromI32(1))
+    cardHolder.save()
   }
   cardBalance.blockNumber = blockNumber;
   return cardBalance;
