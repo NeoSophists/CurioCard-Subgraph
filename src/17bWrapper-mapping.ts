@@ -102,7 +102,7 @@ export function handleTransferSingle(event: TransferSingle): void {
           ]
         );
 
-      clearEmptyCardBalance(user_sender_cardBalance);
+      clearEmptyCardBalance(user_sender_cardBalance, user_sender);
       
     } }
     else {

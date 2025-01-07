@@ -206,7 +206,7 @@ export function handleTransferSingle(event: TransferSingle): void {
           ]
         );
 
-      clearEmptyCardBalance(user_sender_cardBalance);
+      clearEmptyCardBalance(user_sender_cardBalance,user_sender);
       
     } }
     else {
@@ -285,7 +285,7 @@ export function handleTransferBatch(event: TransferBatch): void {
       );
       user_recevier_cardBalance.save();
       user_recevier.save();
-      clearEmptyCardBalance(user_sender_cardBalance);
+      clearEmptyCardBalance(user_sender_cardBalance,user_sender);
       log.info(
         "ERC1155 BATCH TRANSFER - operator: {} from: {} to: {} txhash: {} value: {} id: {}",
         [

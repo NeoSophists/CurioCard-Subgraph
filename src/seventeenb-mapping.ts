@@ -159,7 +159,7 @@ export function handleTransfer(event: Transfer): void {
       );
       user_recevier_cardBalance.save();
       user_recevier.save();
-      clearEmptyCardBalance(user_sender_cardBalance);
+      clearEmptyCardBalance(user_sender_cardBalance,user_sender);
       log.info(
         "ERC20 TRANSFER (eventHandler) - event.address: {} from: {} to: {} txhash: {}",
         [
@@ -335,7 +335,7 @@ export function handleDirectTransfer(call: TransferCall): void {
         );
         user_recevier_cardBalance.save();
         user_recevier.save();
-        clearEmptyCardBalance(user_sender_cardBalance);
+        clearEmptyCardBalance(user_sender_cardBalance,user_sender);
         log.info(
           "TRANSFER-DIRECT- txfrom: {}, from: {}, to: {}, inputTo: {}, value: {}, txHash: {}",
           [
